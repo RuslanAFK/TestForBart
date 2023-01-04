@@ -25,23 +25,27 @@ namespace TestForBart.Controllers
         [HttpPost]
         public async Task<ActionResult<Incident>> CreateIncident(CreateIncidentViewModel model)
         {
-            var contact = new Contact
+            var incident = new Incident
             {
-                FirstName = model.ContactFirstName,
-                LastName = model.ContactLastName,
-                Email = model.ContactEmail
+                Description = model.Description
             };
             var acc = new Account
             {
                 Name = model.AccountName,
-                Contacts = { contact }
+                Incident = incident
             };
-            var incident = new Incident
+            var contact = new Contact
             {
-                Description = model.Description,
-                Accounts = { acc }
+                FirstName = model.ContactFirstName,
+                LastName = model.ContactLastName,
+                Email = model.ContactEmail,
+                Account = acc
             };
             _context.Incidents.Add(incident);
+            _context.Accounts.Add(acc);
+            _context.Contacts.Add(contact);
+
+
             await _context.SaveChangesAsync();
 
             return incident;
