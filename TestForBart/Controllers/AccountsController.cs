@@ -25,19 +25,21 @@ namespace TestForBart.Controllers
             {
                 return NotFound();
             }
+            var acc = new Account
+            {
+                Name = model.Name,
+                Incident = inc
+            };
             var contact = new Contact
             {
                 FirstName = model.ContactFirstName,
                 LastName = model.ContactLastName,
-                Email = model.ContactEmail
-            };
-            var acc = new Account
-            {
-                Name = model.Name,
-                Contacts = { contact },
-                Incident = inc
+                Email = model.ContactEmail,
+                Account = acc
             };
             _context.Accounts.Add(acc);
+            _context.Contacts.Add(contact);
+
             await _context.SaveChangesAsync();
 
             return acc;
